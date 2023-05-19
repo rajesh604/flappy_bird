@@ -1,9 +1,6 @@
 body {
     font-family: 'Courier New', Courier, monospace;
     text-align: center;
-    max-width: 100vw;
-    max-height: 100vh;
-    overflow: hidden;
     margin: 0;
     padding: 0;
     background-color: skyblue;
@@ -11,10 +8,8 @@ body {
 
 #board {
     width: 100%;
-    height: 100%;
-
+    height: 100vh;
     background-image: url("./flappybirdbg.png");
-    /* background-size: contain; */
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

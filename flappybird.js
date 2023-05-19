@@ -32,7 +32,7 @@ let topPipeImg;
 let bottomPipeImg;
 
 //physics
-let velocityX = -2; //pipes moving left speed
+let velocityX = -1; //pipes moving left speed
 let velocityY = 0; //bird jump speed
 let gravity = 0.2;
 
@@ -156,7 +156,6 @@ function placePipes() {
 
 function moveBird(e) {
     if (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX" || e.code == "KeyW") {
-        console.log(window.innerWidth, window.innerHeight)
         wing.play();
         // change the image source to 1 2 3 2 1
         // birdImg.src = "./1.png";
@@ -192,3 +191,38 @@ function detectCollision(a, b) {
         a.y < b.y + b.height &&  //a's top left corner doesn't reach b's bottom left corner
         a.y + a.height > b.y;    //a's bottom left corner passes b's top left corner
 }
+
+function handleClick() {
+    // Add the code you want to execute when the mouse is clicked
+    wing.play();
+    // Change the image source to 1 2 3 2 1
+    setTimeout(function () {
+        birdImg.src = "./1.png";
+    }, 0);
+    setTimeout(function () {
+        birdImg.src = "./2.png";
+    }, 100);
+    setTimeout(function () {
+        birdImg.src = "./3.png";
+    }, 200);
+    setTimeout(function () {
+        birdImg.src = "./2.png";
+    }, 300);
+    setTimeout(function () {
+        birdImg.src = "./1.png";
+    }, 400);
+
+    velocityY = -6;
+    // Reset game
+    if (gameOver) {
+        console.log("gameover");
+        bird.y = birdY;
+        pipeArray = [];
+        score = 0;
+        gameOver = false;
+    }
+}
+
+// Add event listeners
+window.addEventListener("keydown", moveBird);
+window.addEventListener("click", handleClick);
