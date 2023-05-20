@@ -50,19 +50,20 @@ const point = new Audio("./audio/point.ogg")
 const wing = new Audio("./audio/wing.ogg")
 const hit = new Audio("./audio/hit.ogg")
 
+// gameover element selector
+const gameOverDiv = document.getElementById("close");
+const gameDisplay = document.getElementById("board");
+const gameStartDiv = document.getElementById("start");
+
 window.onload = function () {
     board = document.getElementById("board");
     board.height = boardHeight;
     board.width = boardWidth;
     context = board.getContext("2d"); //used for drawing on the board
 
-    //draw flappy bird
-    // context.fillStyle = "green";
-    // context.fillRect(bird.x, bird.y, bird.width, bird.height);
-
     //load images
     birdImg = new Image();
-    // birdImg.src = "./1.png";
+
     birdImg = image1;
     birdImg.onload = function () {
         context.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
@@ -79,6 +80,12 @@ window.onload = function () {
     document.addEventListener("keydown", moveBird);
     window.addEventListener("click", handleClick);
 }
+
+// function gameOverDisplay() {
+//     console.log("game over");
+//     gameOverDiv.style.display = "block";
+//     gameDisplay.style.display = "none";
+// }
 
 function update() {
     requestAnimationFrame(update);
@@ -111,6 +118,7 @@ function update() {
         }
 
         if (detectCollision(bird, pipe)) {
+
             hit.play();
             gameOver = true;
         }
@@ -127,12 +135,14 @@ function update() {
     context.fillText(score, 5, 45);
 
     if (gameOver) {
+
         context.fillText("GAME OVER", 5, 90);
     }
 }
 
 function placePipes() {
     if (gameOver) {
+
         return;
     }
 
@@ -191,6 +201,7 @@ function moveBird(e) {
 
         //reset game
         if (gameOver) {
+
             console.log("gameover")
             bird.y = birdY;
             pipeArray = [];
@@ -211,10 +222,8 @@ function handleClick() {
     // Add the code you want to execute when the mouse is clicked
     wing.play();
     // Change the image source to 1 2 3 2 1
-    setTimeout(function () {
-        // birdImg.src = "./1.png";
-        birdImg = image1;
-    }, 0);
+    // birdImg.src = "./1.png";
+    birdImg = image1;
     setTimeout(function () {
         // birdImg.src = "./2.png";
         birdImg = image2;
@@ -235,6 +244,7 @@ function handleClick() {
     velocityY = -6;
     // Reset game
     if (gameOver) {
+
         console.log("gameover");
         bird.y = birdY;
         pipeArray = [];
