@@ -62,7 +62,8 @@ window.onload = function () {
 
     //load images
     birdImg = new Image();
-    birdImg.src = "./1.png";
+    // birdImg.src = "./1.png";
+    birdImg = image1;
     birdImg.onload = function () {
         context.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
     }
@@ -166,7 +167,8 @@ function moveBird(e) {
     if (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX" || e.code == "KeyW") {
         wing.play();
         // change the image source to 1 2 3 2 1
-        birdImg.src = "./1.png";
+        // birdImg.src = "./1.png";
+        birdImg = image1;
         setTimeout(function () {
             // birdImg.src = "./2.png";
             // birdImg.src = "./2.png";
