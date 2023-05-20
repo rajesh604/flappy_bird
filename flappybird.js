@@ -78,7 +78,7 @@ window.onload = function () {
     requestAnimationFrame(update);
     setInterval(placePipes, 1500); //every 1.5 seconds
     document.addEventListener("keydown", moveBird);
-    window.addEventListener("click", handleClick);
+    document.addEventListener("click", handleClick);
 }
 
 // function gameOverDisplay() {
