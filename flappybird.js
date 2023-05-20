@@ -13,6 +13,13 @@ let birdX = boardWidth / 8;
 let birdY = boardHeight / 2;
 let birdImg;
 
+let image1 = new Image();
+image1.src = "./1.png";
+let image2 = new Image();
+image2.src = "./2.png";
+let image3 = new Image();
+image3.src = "./3.png";
+
 // bird data
 let bird = {
     x: birdX,
@@ -69,6 +76,7 @@ window.onload = function () {
     requestAnimationFrame(update);
     setInterval(placePipes, 1500); //every 1.5 seconds
     document.addEventListener("keydown", moveBird);
+    window.addEventListener("click", handleClick);
 }
 
 function update() {
@@ -158,18 +166,23 @@ function moveBird(e) {
     if (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX" || e.code == "KeyW") {
         wing.play();
         // change the image source to 1 2 3 2 1
-        // birdImg.src = "./1.png";
+        birdImg.src = "./1.png";
         setTimeout(function () {
-            birdImg.src = "./2.png";
+            // birdImg.src = "./2.png";
+            // birdImg.src = "./2.png";
+            birdImg = image2;
         }, 100);
         setTimeout(function () {
-            birdImg.src = "./3.png";
+            // birdImg.src = "./3.png";
+            birdImg = image3;
         }, 200);
         setTimeout(function () {
-            birdImg.src = "./2.png";
+            // birdImg.src = "./2.png";
+            birdImg = image2;
         }, 300);
         setTimeout(function () {
-            birdImg.src = "./1.png";
+            // birdImg.src = "./1.png";
+            birdImg = image1;
         }, 400);
 
         velocityY = -6;
@@ -197,19 +210,24 @@ function handleClick() {
     wing.play();
     // Change the image source to 1 2 3 2 1
     setTimeout(function () {
-        birdImg.src = "./1.png";
+        // birdImg.src = "./1.png";
+        birdImg = image1;
     }, 0);
     setTimeout(function () {
-        birdImg.src = "./2.png";
+        // birdImg.src = "./2.png";
+        birdImg = image2;
     }, 100);
     setTimeout(function () {
-        birdImg.src = "./3.png";
+        // birdImg.src = "./3.png";
+        birdImg = image3;
     }, 200);
     setTimeout(function () {
-        birdImg.src = "./2.png";
+        // birdImg.src = "./2.png";
+        birdImg = image2;
     }, 300);
     setTimeout(function () {
-        birdImg.src = "./1.png";
+        // birdImg.src = "./1.png";
+        birdImg = image1;
     }, 400);
 
     velocityY = -6;
@@ -222,7 +240,3 @@ function handleClick() {
         gameOver = false;
     }
 }
-
-// Add event listeners
-window.addEventListener("keydown", moveBird);
-window.addEventListener("click", handleClick);
