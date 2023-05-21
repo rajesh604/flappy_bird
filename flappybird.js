@@ -7,7 +7,7 @@ let boardHeight = window.innerHeight;
 let context;
 
 //bird
-let birdWidth = 34; //width/height ratio = 408/228 = 17/12
+let birdWidth = 34;
 let birdHeight = 24;
 let birdX = boardWidth / 8;
 let birdY = boardHeight / 2;
@@ -30,7 +30,7 @@ let bird = {
 
 //pipes
 let pipeArray = [];
-let pipeWidth = 64; //width/height ratio = 384/3072 = 1/8
+let pipeWidth = 64;
 let pipeHeight = 512;
 let pipeX = boardWidth;
 let pipeY = 0;
@@ -39,8 +39,8 @@ let topPipeImg;
 let bottomPipeImg;
 
 //physics
-let velocityX = -1; //pipes moving left speed
-let velocityY = 0; //bird jump speed
+let velocityX = -1;
+let velocityY = 0;
 let gravity = 0.2;
 
 let gameOver = false;
@@ -49,15 +49,17 @@ let score = 0;
 const point = new Audio("./audio/point.ogg")
 const wing = new Audio("./audio/wing.ogg")
 const hit = new Audio("./audio/hit.ogg")
-const die = new Audio("./audio/die.ogg")
+const die = new Audio("./audio/flappy_gameover.wav")
+const start = new Audio("./audio/game_start.mp3")
 
-// gameover element selector
 const gameOverDiv = document.getElementById("close");
 const gameDisplay = document.getElementById("board");
 const gameStartDiv = document.getElementById("start");
 
 window.onload = function () {
+    start.play()
     gameStartDiv.addEventListener("click", () => {
+        start.pause()
         gameStartDiv.style.display = "none";
         gameDisplay.style.display = "block";
         board = document.getElementById("board");
