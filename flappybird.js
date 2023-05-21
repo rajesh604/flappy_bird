@@ -49,6 +49,7 @@ let score = 0;
 const point = new Audio("./audio/point.ogg")
 const wing = new Audio("./audio/wing.ogg")
 const hit = new Audio("./audio/hit.ogg")
+const die = new Audio("./audio/die.ogg")
 
 // gameover element selector
 const gameOverDiv = document.getElementById("close");
@@ -56,36 +57,58 @@ const gameDisplay = document.getElementById("board");
 const gameStartDiv = document.getElementById("start");
 
 window.onload = function () {
-    board = document.getElementById("board");
-    board.height = boardHeight;
-    board.width = boardWidth;
-    context = board.getContext("2d"); //used for drawing on the board
+    gameStartDiv.addEventListener("click", () => {
+        gameStartDiv.style.display = "none";
+        gameDisplay.style.display = "block";
+        board = document.getElementById("board");
+        board.height = boardHeight;
+        board.width = boardWidth;
+        context = board.getContext("2d"); //used for drawing on the board
 
-    //load images
-    birdImg = new Image();
+        //load images
+        birdImg = new Image();
 
-    birdImg = image1;
-    birdImg.onload = function () {
-        context.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
-    }
+        birdImg = image1;
+        birdImg.onload = function () {
+            context.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
+        }
 
-    topPipeImg = new Image();
-    topPipeImg.src = "./toppipe.png";
+        topPipeImg = new Image();
+        topPipeImg.src = "./toppipe.png";
 
-    bottomPipeImg = new Image();
-    bottomPipeImg.src = "./bottompipe.png";
+        bottomPipeImg = new Image();
+        bottomPipeImg.src = "./bottompipe.png";
 
-    requestAnimationFrame(update);
-    setInterval(placePipes, 2000); //every 1.5 seconds
-    document.addEventListener("keydown", moveBird);
-    document.addEventListener("click", handleClick);
+        requestAnimationFrame(update);
+        setInterval(placePipes, 2000); //every 1.5 seconds
+        document.addEventListener("keydown", moveBird);
+        document.addEventListener("click", handleClick);
+    })
 }
 
-// function gameOverDisplay() {
-//     console.log("game over");
-//     gameOverDiv.style.display = "block";
-//     gameDisplay.style.display = "none";
-// }
+function opacityzero() {
+    let value = window.getComputedStyle(gameDisplay).getPropertyValue("opacity")
+    let time = 0
+    for (let i = 0; i < 10; i++) {
+        time += 25
+        setTimeout(() => {
+            value -= 0.1
+            gameDisplay.style.opacity = value
+        }, time);
+    }
+    setTimeout(() => {
+        gameDisplay.style.display = "none"
+    }, time);
+}
+
+function gameOverDisplay() {
+    die.play()
+    opacityzero();
+    gameOverDiv.style.display = "block";
+    setTimeout(() => {
+        window.location.reload()
+    }, 1000);
+}
 
 function update() {
     requestAnimationFrame(update);
@@ -96,9 +119,7 @@ function update() {
 
     //bird
     velocityY += gravity;
-    // the below can make game harder
-    // bird.y += velocityY;
-    bird.y = Math.max(bird.y + velocityY, 0); //apply gravity to current bird.y, limit the bird.y to top of the canvas
+    bird.y = Math.max(bird.y + velocityY, 0);
     context.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
 
     if (bird.y > board.height - 90) {
@@ -135,20 +156,16 @@ function update() {
     context.fillText(score, 5, 45);
 
     if (gameOver) {
-
         context.fillText("GAME OVER", 5, 90);
+        gameOverDisplay();
     }
 }
 
 function placePipes() {
     if (gameOver) {
-
         return;
     }
 
-    //(0-1) * pipeHeight/2.
-    // 0 -> -128 (pipeHeight/4)
-    // 1 -> -128 - 256 (pipeHeight/4 - pipeHeight/2) = -3/4 pipeHeight
     let randomPipeY = pipeY - pipeHeight / 4 - Math.random() * (pipeHeight / 2);
     let openingSpace = board.height / 4;
 
@@ -176,24 +193,17 @@ function placePipes() {
 function moveBird(e) {
     if (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX" || e.code == "KeyW") {
         wing.play();
-        // change the image source to 1 2 3 2 1
-        // birdImg.src = "./1.png";
         birdImg = image1;
         setTimeout(function () {
-            // birdImg.src = "./2.png";
-            // birdImg.src = "./2.png";
             birdImg = image2;
         }, 100);
         setTimeout(function () {
-            // birdImg.src = "./3.png";
             birdImg = image3;
         }, 200);
         setTimeout(function () {
-            // birdImg.src = "./2.png";
             birdImg = image2;
         }, 300);
         setTimeout(function () {
-            // birdImg.src = "./1.png";
             birdImg = image1;
         }, 400);
 
@@ -201,8 +211,6 @@ function moveBird(e) {
 
         //reset game
         if (gameOver) {
-
-            console.log("gameover")
             bird.y = birdY;
             pipeArray = [];
             score = 0;
@@ -212,40 +220,31 @@ function moveBird(e) {
 }
 
 function detectCollision(a, b) {
-    return a.x < b.x + b.width &&   //a's top left corner doesn't reach b's top right corner
-        a.x + a.width > b.x &&   //a's top right corner passes b's top left corner
-        a.y < b.y + b.height &&  //a's top left corner doesn't reach b's bottom left corner
-        a.y + a.height > b.y;    //a's bottom left corner passes b's top left corner
+    return a.x < b.x + b.width &&
+        a.x + a.width > b.x &&
+        a.y < b.y + b.height &&
+        a.y + a.height > b.y;
 }
 
 function handleClick() {
-    // Add the code you want to execute when the mouse is clicked
     wing.play();
-    // Change the image source to 1 2 3 2 1
-    // birdImg.src = "./1.png";
     birdImg = image1;
     setTimeout(function () {
-        // birdImg.src = "./2.png";
         birdImg = image2;
     }, 100);
     setTimeout(function () {
-        // birdImg.src = "./3.png";
         birdImg = image3;
     }, 200);
     setTimeout(function () {
-        // birdImg.src = "./2.png";
         birdImg = image2;
     }, 300);
     setTimeout(function () {
-        // birdImg.src = "./1.png";
         birdImg = image1;
     }, 400);
 
     velocityY = -6;
     // Reset game
     if (gameOver) {
-
-        console.log("gameover");
         bird.y = birdY;
         pipeArray = [];
         score = 0;
